@@ -1,0 +1,429 @@
+ /* ============================================================
+       FONTS & RESET
+    ============================================================ */
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=MedievalSharp&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at 50% 30%, #1a0e2e 0%, #0a0612 70%);
+      font-family: 'IM Fell English', Georgia, serif;
+      overflow: hidden;
+      position: relative;
+    }
+    /* ============================================================
+       AMBIENT STARS
+    ============================================================ */
+    #stars-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================================================
+       SCENE WRAPPER
+    ============================================================ */
+    .scene {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      perspective: 1200px;
+    }
+
+    /* ============================================================
+       ENVELOPE
+    ============================================================ */
+    .envelope-wrap {
+      position: relative;
+      width: 420px;
+      max-width: 92vw;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      padding-bottom: 66%; /* 3:2 ratio */
+      filter: drop-shadow(0 20px 60px rgba(0,0,0,0.8)) drop-shadow(0 4px 12px rgba(180,140,60,0.3));
+    }
+
+    /* Base envelope body */
+    .env-body {
+      position: absolute;
+      inset: 0;
+      background:
+        /* subtle parchment grain */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+        linear-gradient(160deg, #e8d49a 0%, #c9a84c 40%, #b8953f 70%, #a07830 100%);
+      border-radius: 4px;
+      border: 2px solid #7a5c1e;
+      overflow: hidden;
+    }
+
+    /* V-fold lines on envelope front */
+    .env-body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, transparent 49.5%, rgba(120,80,20,0.25) 50%, transparent 50.5%),
+        linear-gradient(225deg, transparent 49.5%, rgba(120,80,20,0.25) 50%, transparent 50.5%);
+    }
+
+    /* Bottom flap triangle */
+    .env-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 55%;
+      clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+      background: linear-gradient(180deg, #c49a35 0%, #a07830 100%);
+      border-top: 1.5px solid #7a5c1e;
+    }
+
+    /* Top flap — animated */
+    .env-flap {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 55%;
+      clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+      background: linear-gradient(160deg, #d4b050 0%, #b8953f 60%, #9a7828 100%);
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+      border-bottom: 1.5px solid #7a5c1e;
+    }
+
+    .envelope.open .env-flap {
+      transform: rotateX(-180deg);
+    }
+
+    /* Wax seal */
+    .wax-seal {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px; height: 70px;
+      z-index: 15;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .envelope.open .wax-seal {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+    }
+
+    .seal-circle {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #c0392b 0%, #922b21 50%, #641e16 100%);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.6), inset 0 1px 3px rgba(255,180,150,0.3);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+
+    .seal-circle::before {
+      /* Outer ring */
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,200,150,0.35);
+    }
+
+    .seal-h {
+      font-size: 28px;
+      color: #f5d48a;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-weight: bold;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+      user-select: none;
+    }
+
+    /* Decorative border lines on envelope */
+    .env-border {
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(180,140,60,0.35);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    /* Open button */
+    .open-btn {
+      margin-top: 28px;
+      padding: 11px 36px;
+      font-family: 'IM Fell English', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: #f5d48a;
+      background: transparent;
+      border: 1.5px solid #c49a35;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.15s;
+      box-shadow: 0 0 14px rgba(196,154,53,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .open-btn:hover {
+      background: rgba(196,154,53,0.12);
+      box-shadow: 0 0 28px rgba(196,154,53,0.45);
+      transform: translateY(-1px);
+    }
+
+    .open-btn:active { transform: translateY(0); }
+
+    .open-btn.hidden { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+
+    /* Reset button */
+    .reset-btn {
+      margin-top: 16px;
+      padding: 7px 22px;
+      font-family: 'IM Fell English', serif;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: rgba(200,170,100,0.7);
+      background: transparent;
+      border: 1px solid rgba(196,154,53,0.3);
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: color 0.2s, border-color 0.2s;
+      display: none;
+    }
+
+    .reset-btn.visible { display: block; }
+    .reset-btn:hover { color: #f5d48a; border-color: #c49a35; }
+
+    /* ============================================================
+       LETTER SLIDE
+    ============================================================ */
+    .letter-wrap {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 88%;
+      z-index: 5; /* behind flap until open */
+      transform-origin: bottom center;
+    }
+
+    .letter-wrap.sliding {
+      animation: slideOut 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
+      z-index: 20;
+    }
+
+    @keyframes slideOut {
+      0%   { bottom: 10px;  transform: translateX(-50%) scaleY(0.05); opacity: 0; }
+      30%  { opacity: 1; }
+      100% { bottom: 110%; transform: translateX(-50%) scaleY(1); }
+    }
+
+    /* The actual letter card */
+    .letter {
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E"),
+        linear-gradient(175deg, #f4e7c5 0%, #ead9a8 30%, #e2ce96 70%, #d5bf80 100%);
+      border: 1.5px solid #b8953f;
+      border-radius: 2px;
+      padding: 36px 30px 30px;
+      box-shadow:
+        0 0 0 5px rgba(180,140,60,0.08),
+        0 30px 80px rgba(0,0,0,0.6),
+        inset 0 0 40px rgba(160,100,20,0.07);
+      position: relative;
+      transform-origin: top center;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: none;
+    }
+
+    .letter.revealed {
+      opacity: 1;
+      max-height: 2000px;
+      animation: unfold 0.7s cubic-bezier(0.25, 0.8, 0.25, 1) 1.85s both;
+    }
+
+    @keyframes unfold {
+      0%   { transform: rotateX(-90deg) scaleY(0.3); opacity: 0.4; }
+      60%  { transform: rotateX(6deg); opacity: 1; }
+      100% { transform: rotateX(0deg); opacity: 1; }
+    }
+
+    /* Burnt / aged edges */
+    .letter::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 2px;
+      background:
+        radial-gradient(ellipse at 0% 0%, rgba(80,40,5,0.28) 0%, transparent 40%),
+        radial-gradient(ellipse at 100% 0%, rgba(80,40,5,0.22) 0%, transparent 35%),
+        radial-gradient(ellipse at 0% 100%, rgba(80,40,5,0.20) 0%, transparent 35%),
+        radial-gradient(ellipse at 100% 100%, rgba(80,40,5,0.18) 0%, transparent 35%);
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       LETTER HEADER
+    ============================================================ */
+    .letter-header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(140,100,30,0.35);
+      position: relative;
+    }
+
+    /* Decorative top rule */
+    .letter-header::before {
+      content: '✦  ✦  ✦';
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.6em;
+      color: #8a6520;
+      margin-bottom: 10px;
+    }
+
+    /* Crest placeholder */
+    .crest {
+      width: 72px; height: 72px;
+      margin: 0 auto 10px;
+      position: relative;
+    }
+
+    .crest svg {
+      width: 100%; height: 100%;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+    }
+
+    .school-name {
+      font-size: 1.35rem;
+      font-style: italic;
+      color: #3d2200;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+    }
+
+    .school-motto {
+      font-size: 0.7rem;
+      color: #7a5c1e;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    /* Ornamental rule beneath header */
+    .header-rule {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      color: #b8953f;
+    }
+
+    .header-rule span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #b8953f, transparent); }
+    .header-rule em { font-size: 0.75rem; font-style: normal; }
+
+    /* ============================================================
+       LETTER BODY
+    ============================================================ */
+    .letter-body {
+      color: #2a1500;
+      font-size: 0.93rem;
+      line-height: 1.75;
+    }
+
+    .letter-salutation {
+      font-size: 1rem;
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+
+    /* ================================================================
+       ✏️  EDITABLE LETTER CONTENT — REPLACE THIS SECTION WITH YOUR TEXT
+    ================================================================ */
+    .letter-content {
+      /* This div is intentionally left for your custom text. */
+    }
+
+    /* ================================================================
+       END OF EDITABLE CONTENT SECTION
+    ================================================================ */
+
+    .letter-content p {
+      margin-bottom: 12px;
+      text-align: justify;
+      text-indent: 1.4em;
+    }
+
+    .letter-content p:first-child { text-indent: 0; }
+
+    .letter-closing {
+      margin-top: 20px;
+      font-style: italic;
+    }
+
+    .letter-sig {
+      margin-top: 8px;
+      font-size: 1.1rem;
+      color: #3d2200;
+    }
+
+    .letter-title {
+      font-size: 0.75rem;
+      color: #7a5c1e;
+      letter-spacing: 0.06em;
+    }
+
+    /* Footer rule */
+    .letter-footer-rule {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      color: #9a7828;
+    }
+
+    /* ============================================================
+       MAGIC PARTICLES CANVAS
+    ============================================================ */
+    #magic-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    #magic-canvas.active { opacity: 1; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 480px) {
+      .letter { padding: 24px 18px 20px; }
+      .school-name { font-size: 1.1rem; }
+      .letter-body { font-size: 0.84rem; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION
+    ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }

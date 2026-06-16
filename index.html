@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hogwarts Graduation Letter</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- Ambient star field -->
+<canvas id="stars-canvas"></canvas>
+
+<!-- Magic particle effects -->
+<canvas id="magic-canvas"></canvas>
+
+<div class="scene">
+
+  <!-- =================== ENVELOPE =================== -->
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope">
+
+      <div class="env-body">
+        <div class="env-border"></div>
+      </div>
+
+      <!-- Top flap -->
+      <div class="env-flap"></div>
+
+      <!-- Wax seal -->
+      <div class="wax-seal">
+        <div class="seal-circle">
+          <span class="seal-h">H</span>
+        </div>
+      </div>
+
+      <!-- Bottom fold triangle -->
+      <div class="env-bottom"></div>
+
+      <!-- Letter (hidden inside envelope) -->
+      <div class="letter-wrap" id="letter-wrap">
+        <div class="letter" id="letter">
+
+          <!-- ===== HOGWARTS HEADER ===== -->
+          <div class="letter-header">
+            <div class="crest">
+              <!-- Inline SVG Hogwarts-style crest -->
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Shield shape -->
+                <path d="M50 5 L90 20 L90 60 Q90 85 50 97 Q10 85 10 60 L10 20 Z"
+                      fill="#3d2200" stroke="#b8953f" stroke-width="2"/>
+                <!-- Quadrant dividers -->
+                <line x1="50" y1="5" x2="50" y2="97" stroke="#b8953f" stroke-width="1.5"/>
+                <line x1="10" y1="50" x2="90" y2="50" stroke="#b8953f" stroke-width="1.5"/>
+                <!-- Lion (Gryffindor top-left) -->
+                <text x="28" y="40" text-anchor="middle" font-size="18" fill="#c9a84c">🦁</text>
+                <!-- Snake (Slytherin top-right) -->
+                <text x="72" y="40" text-anchor="middle" font-size="18" fill="#c9a84c">🐍</text>
+                <!-- Eagle (Ravenclaw bottom-left) -->
+                <text x="28" y="74" text-anchor="middle" font-size="18" fill="#c9a84c">🦅</text>
+                <!-- Badger (Hufflepuff bottom-right) -->
+                <text x="72" y="74" text-anchor="middle" font-size="18" fill="#c9a84c">🦡</text>
+                <!-- Crown top -->
+                <path d="M40 10 L43 17 L50 13 L57 17 L60 10 L58 20 L42 20 Z"
+                      fill="#b8953f"/>
+              </svg>
+            </div>
+
+            <div class="school-name">Hogwarts School<br>of Witchcraft and Wizardry</div>
+            <div class="school-motto">Draco Dormiens Nunquam Titillandus</div>
+
+            <div class="header-rule">
+              <span></span><em>❧</em><span></span>
+            </div>
+          </div><!-- /letter-header -->
+
+          <!-- ===== LETTER BODY ===== -->
+          <div class="letter-body">
+            <div class="letter-salutation">Dear Mr. / Ms. [Recipient Name],</div>
+
+            <!-- ================================================================
+                 ✏️  YOUR CUSTOM LETTER TEXT GOES INSIDE .letter-content BELOW
+                     Replace or add <p> elements with your own content.
+            ================================================================ -->
+            <div class="letter-content">
+
+              <p>We are pleased to inform you that you have been accepted at Hogwarts School of Witchcraft and Wizardry. Please find enclosed a list of all necessary books and equipment.</p>
+
+              <p>Term begins on the 1 September. We await your owl by no later than 31 July.</p>
+
+              <!-- ADD YOUR OWN PARAGRAPHS HERE -->
+              <!-- Example:
+              <p>Your paragraph text here...</p>
+              -->
+
+            </div>
+            <!-- ================================================================
+                 END OF CUSTOM LETTER TEXT SECTION
+            ================================================================ -->
+
+            <div class="letter-closing">Yours sincerely,</div>
+            <div class="letter-sig">Minerva McGonagall</div>
+            <div class="letter-title">Deputy Headmistress</div>
+
+            <div class="letter-footer-rule">✦ &nbsp; Hogwarts, Est. 993 A.D. &nbsp; ✦</div>
+          </div><!-- /letter-body -->
+
+        </div><!-- /letter -->
+      </div><!-- /letter-wrap -->
+
+    </div><!-- /envelope -->
+  </div><!-- /envelope-wrap -->
+
+  <!-- Buttons -->
+  <button class="open-btn" id="open-btn">Open Letter</button>
+  <button class="reset-btn" id="reset-btn">↺ &nbsp;Close &amp; Reset</button>
+
+</div><!-- /scene -->
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
