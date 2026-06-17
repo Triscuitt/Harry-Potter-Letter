@@ -188,7 +188,7 @@
 
     /* Reset button */
     .reset-btn {
-      margin-top: 16px;
+      /* margin-top: 10px; */
       padding: 7px 22px;
       font-family: 'IM Fell English', serif;
       font-size: 0.8rem;
@@ -211,7 +211,7 @@
     ============================================================ */
     .letter-wrap {
       position: absolute;
-      bottom: 10px;
+      bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
       width: 88%;
@@ -427,3 +427,5 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
+
+    
