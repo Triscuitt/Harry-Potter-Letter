@@ -13,7 +13,7 @@
       justify-content: center;
       background: radial-gradient(ellipse at 50% 30%, #1a0e2e 0%, #0a0612 70%);
       font-family: 'IM Fell English', Georgia, serif;
-      overflow: hidden;
+      overflow-y: auto;
       position: relative;
     }
     /* ============================================================
@@ -173,7 +173,7 @@
       transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.15s;
       box-shadow: 0 0 14px rgba(196,154,53,0.2);
       position: relative;
-      overflow: hidden;
+      /* overflow: hidden; */
     }
 
     .open-btn:hover {
@@ -418,7 +418,7 @@
     @media (max-width: 480px) {
       .letter { padding: 24px 18px 20px; }
       .school-name { font-size: 1.1rem; }
-      .letter-body { font-size: 0.84rem; }
+      .letter-body { font-size: 0.84rem; overflow: auto; }
     }
 
     /* ============================================================
