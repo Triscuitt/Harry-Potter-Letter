@@ -16,6 +16,7 @@
       overflow-y: auto;
       position: relative;
     }
+
     /* ============================================================
        AMBIENT STARS
     ============================================================ */
@@ -173,7 +174,7 @@
       transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.15s;
       box-shadow: 0 0 14px rgba(196,154,53,0.2);
       position: relative;
-      /* overflow: hidden; */
+      overflow: hidden;
     }
 
     .open-btn:hover {
@@ -357,7 +358,8 @@
        ✏️  EDITABLE LETTER CONTENT — REPLACE THIS SECTION WITH YOUR TEXT
     ================================================================ */
     .letter-content {
-      /* This div is intentionally left for your custom text. */
+     font-size: 1rem;
+     font-style: italic;
     }
 
     /* ================================================================
